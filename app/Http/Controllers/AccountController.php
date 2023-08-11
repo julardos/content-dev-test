@@ -37,7 +37,16 @@ class AccountController extends Controller
 
     public function update(AccountUpdate $request)
     {
-        $request->user()->update($request->only('first_name', 'last_name', 'email'));
+        $request->validated([
+            'name' => 'required',
+            'description' => 'required',
+            'expertise' => 'required',
+            'subscription_fee' => 'required'
+        ]);
+
+        $request->user()->update($request->only('name'));
+
+        $request->user()->profile()->update($request->only('description', 'expertise', 'genres', 'subscription_fee'));
 
         \session()->flash('message', \__('account.updated'));
 
