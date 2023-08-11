@@ -1,0 +1,54 @@
+input {
+    @include rem(16px);
+    width: 100%;
+    border-radius: border-radius(forms);
+    border: border(forms);
+    background-color: #fff;
+    // Type
+    font-family: font(1);
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+    padding: 0;
+}
+
+button {
+    cursor: pointer;
+    appearance: none;
+    border: none;
+    background-color: transparent;
+}
+
+label {
+    @extend %text-regular;
+    // Type
+    font-weight: font-weight(bold);
+}
+
+//---- Responsive ----//
+@media (min-width: (breakpoint(mobile-1) + 1)) {
+    input {
+        height: 50px;
+        padding: 15px;
+    }
+
+    input[type="checkbox"],
+    input[type="radio"] {
+        width: 25px;
+        height: 25px;
+    }
+}
+
+@media (max-width: breakpoint(mobile-1)) {
+    input {
+        height: 40px;
+        padding: 12px;
+    }
+
+    input[type="checkbox"],
+    input[type="radio"] {
+        width: 20px;
+        height: 20px;
+    }
+}
