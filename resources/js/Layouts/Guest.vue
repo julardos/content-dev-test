@@ -37,7 +37,7 @@
         @extend %d-p-60;
         @extend %m-p-20;
         width: 94%;
-        max-width: 600px;
+        max-width: 900px;
         margin-right: auto;
         margin-left: auto;
         background-color: #fff;

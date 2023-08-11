@@ -14,7 +14,7 @@ class LoginController extends Controller
 
         return \inertia()->render('Login/Show', [
             'email' => ! $isProd ? \env('SEED_ADMIN_EMAIL') : '',
-            'password' => ! $isProd ? '12345' : '',
+            'password' => ! $isProd ? 'password' : '',
             'remember' => ! $isProd ? true : false,
             'redirect' => $request->query('redirect', ''),
         ]);

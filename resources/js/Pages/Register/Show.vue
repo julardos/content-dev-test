@@ -15,27 +15,12 @@
                 <div class="form__item">
                     <label
                         class="form__label"
-                        for="first_name"
-                    >First Name</label>
-                    <input
-                        id="first-name"
-                        type="text"
-                        v-model="form.first_name"
-                        required
-                    />
-                </div>
-            </div>
-
-            <div class="form__row">
-                <div class="form__item">
-                    <label
-                        class="form__label"
-                        for="last_name"
+                        for="Name"
                     >Last Name</label>
                     <input
                         id="last-name"
                         type="text"
-                        v-model="form.last_name"
+                        v-model="form.name"
                         required
                     />
                 </div>
@@ -71,6 +56,34 @@
                 </div>
             </div>
 
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    v-model="form.is_creator"
+                    id="is_creator"
+                >
+                <label class="form-check-label" for="is_creator">
+                    &nbsp;Register as Creator
+                </label>
+            </div>
+
+<!--        TODO: I want to create genres with autocomplete select box when i have time -->
+            <div class="form__row" v-if="form.is_creator">
+                <div class="form__item">
+                    <label
+                        class="form__label"
+                        for="genres"
+                    >Genres</label>
+                    <input
+                        id="genres"
+                        type="text"
+                        v-model="form.genres"
+                        required
+                    />
+                </div>
+            </div>
+
             <div class="form__row">
                 <div class="form__action">
                     <Button
@@ -99,8 +112,7 @@
         layout: GuestLayout,
 
         props: {
-            first_name: String,
-            last_name: String,
+            name: String,
             email: String,
             password: String,
         },
@@ -109,10 +121,11 @@
             return {
                 title: "Register",
                 form: useForm({
-                    first_name: this.first_name,
-                    last_name: this.last_name,
+                    name: this.name,
                     email: this.email,
                     password: this.password,
+                    is_creator: false,
+                    genres: null,
                 }),
             };
         },

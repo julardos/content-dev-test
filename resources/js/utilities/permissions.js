@@ -1,6 +1,4 @@
-export function userCan(props, permission) {
+export function creatorCan(props) {
     let user = props?.auth?.user;
-    let permissions = user?.can || [];
-
-    return permissions.includes(permission);
+    return user.is_content_creator;
 }

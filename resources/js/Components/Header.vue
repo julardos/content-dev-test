@@ -5,7 +5,7 @@
                 <Link
                     :href="route('home')"
                     class="header__logo"
-                    text="Logo"
+                    text="KABLOOM"
                 />
             </div>
 

@@ -70,6 +70,18 @@
     </form>
 
     <div class="d-mt-30 m-mt-15 text-center">
+        <p>or Login With :</p>
+        <div class="row justify-content-center">
+            <div class="col-2">
+                <GoogleButton></GoogleButton>
+            </div>
+            <div class="col-2">
+                <FacebookButton></FacebookButton>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-mt-30 m-mt-15 text-center">
         <p>
             <Link :href="route('register')">Register</Link>
         </p>
@@ -79,10 +91,14 @@
 <script>
     import { useForm } from "@inertiajs/vue3";
 
-    import GuestLayout from "@js/Layouts/Guest.vue";
+    import AppLayout from "@js/Layouts/App.vue";
+    import GoogleButton from "../../Components/GoogleButton.vue";
+    import FacebookButton from "../../Components/FacebookButton.vue";
 
     export default {
-        layout: GuestLayout,
+        layout: AppLayout,
+
+        components: {GoogleButton, FacebookButton},
 
         props: {
             email: String,

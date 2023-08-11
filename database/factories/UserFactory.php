@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 /**
@@ -10,15 +12,30 @@ use Illuminate\Support\Str;
  */
 class UserFactory extends Factory
 {
+    public function configure()
+    {
+        return parent::afterCreating(function (User $user) {
+            if ($user->is_content_creator)
+            {
+                $user->profile()->create([
+                    'is_post_locked' => fake()->boolean(),
+                    'expertise' => fake()->jobTitle(),
+                    'description' => fake()->realText(),
+                    'genres' => [fake()->city()]
+                ]);
+            }
+        });
+    }
+
     public function definition()
     {
         return [
-            'first_name' => \fake()->firstName(),
-            'last_name' => \fake()->lastName(),
+            'name' => \fake()->name(),
             'email' => \fake()->unique()->safeEmail(),
             'email_verified_at' => \now(),
-            'password' => '12345',
+            'password' => 'password',
             'remember_token' => Str::random(10),
+            'is_content_creator' => fake()->boolean(20)
         ];
     }
 

@@ -10,32 +10,19 @@
         class="form"
         @submit.prevent="update"
     >
+        <h3 v-if="user.is_content_creator">You are registered as Creator</h3>
+
         <div class="form__section">
             <div class="form__row">
                 <div class="form__item">
                     <label
                         class="form__label"
-                        for="first_name"
-                    >First Name</label>
+                        for="Name"
+                    >Name</label>
                     <input
-                        id="first-name"
+                        id="name"
                         type="text"
-                        v-model="form.first_name"
-                        required
-                    />
-                </div>
-            </div>
-
-            <div class="form__row">
-                <div class="form__item">
-                    <label
-                        class="form__label"
-                        for="last_name"
-                    >Last Name</label>
-                    <input
-                        id="last-name"
-                        type="text"
-                        v-model="form.last_name"
+                        v-model="form.name"
                         required
                     />
                 </div>
@@ -51,24 +38,79 @@
                         id="email"
                         type="email"
                         v-model="form.email"
-                        required
+                        disabled
                     />
                 </div>
             </div>
 
-            <div class="form__row">
-                <div class="form__item">
-                    <label
-                        class="form__label"
-                        for="password"
-                    >Password</label>
-                    <input
-                        id="password"
-                        type="password"
-                        v-model="form.password"
-                    />
+            <template v-if="user.is_content_creator">
+                <div class="form__row">
+                    <div class="form__item">
+                        <label
+                            class="form__label"
+                            for="expertise"
+                        >Expertise</label>
+                        <input
+                            id="expertise"
+                            type="text"
+                            v-model="form.expertise"
+                            required
+                        />
+                    </div>
                 </div>
-            </div>
+
+                <div class="form__row">
+                    <div class="form__item">
+                        <label
+                            class="form__label"
+                            for="description"
+                        >Description</label>
+                        <textarea name="description" id="description" cols="30" rows="10" v-model="form.description"></textarea>
+                    </div>
+                </div>
+
+                <div class="form__row">
+                    <div class="form__item">
+                        <label
+                            class="form__label"
+                            for="genres"
+                        >Genres</label>
+                        <input
+                            id="genres"
+                            type="text"
+                            v-model="form.genres"
+                            required
+                        />
+                        <small>*Type with separation coma (,). Example=Technology, Music, Film</small>
+                    </div>
+                </div>
+
+                <div class="form__row">
+                    <div class="form__item">
+                        <label
+                            class="form__label"
+                            for="subscription_fee"
+                        >Subscription Fee</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend ">
+                                <span class="input-group-text " style="height: 50px">Rp.</span>
+                            </div>
+                            <input
+                                id="subscription_fee"
+                                type="number"
+                                step="1000"
+                                v-model="form.subscription_fee"
+                                required
+                                class="form-control"
+                            />
+                            <div class="input-group-append">
+                                <span class="input-group-text" style="height: 50px">/month</span>
+                            </div>
+                        </div>
+                        <small>*You can fill 0 or above</small>
+                    </div>
+                </div>
+            </template>
 
             <div class="form__row">
                 <div class="form__action">
@@ -92,16 +134,20 @@
 
         props: {
             user: Object,
+            profile: Object
         },
 
         data() {
             return {
-                title: "Update Account",
+                title: "Edit Account",
                 form: useForm({
-                    first_name: this.user.first_name,
-                    last_name: this.user.last_name,
+                    name: this.user.name,
                     email: this.user.email,
                     password: "",
+                    expertise: this.profile?.expertise,
+                    genres: this.profile?.genres,
+                    description: this.profile?.description,
+                    subscription_fee: this.profile?.subscription_fee,
                 }),
             };
         },

@@ -9,9 +9,7 @@ class TestsSeeder extends Seeder
     public function run()
     {
         $this->call([
-            RolesAndPermissionsSeeder::class,
             UsersSeeder::class,
-            OrganisationsSeeder::class,
         ]);
     }
 }

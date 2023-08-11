@@ -5,7 +5,7 @@
 
     <Header>
         <template #menu>
-            <Menu :links="menu" />
+            <Menu :links="this.auth.user.length !== 0 ? menu : menuGuest" />
             <Hamburger
                 :active="mobileMenuOpen"
                 @click.prevent="mobileMenuOpen = !mobileMenuOpen"
@@ -14,7 +14,7 @@
 
         <template #mobile-menu>
             <MobileMenu
-                :links="menu"
+                :links="this.auth.user.length !== 0 ? menu : menuGuest"
                 v-show="mobileMenuOpen"
             />
         </template>
@@ -40,6 +40,12 @@
     export default {
         name: "App Layout",
 
+        props: {
+            auth: {
+
+            }
+        },
+
         components: {
             Header,
             Menu,
@@ -56,6 +62,11 @@
                         components: ['Home/Index'],
                     },
                     {
+                        label: "Your Post",
+                        route: "post",
+                        components: ['Post/Index'],
+                    },
+                    {
                         label: "Account",
                         route: "account.edit",
                         components: ['Account/Edit'],
@@ -68,11 +79,32 @@
                     },
                 ],
 
+                menuGuest: [
+                    {
+                        label: "Home",
+                        route: "home",
+                        components: ['Home/Index'],
+                    },
+                    {
+                        label: "Login",
+                        route: "login",
+                        method: "get",
+                        components: ['Login/Show'],
+                    },
+                    {
+                        label: "Register",
+                        route: "register",
+                        method: "get",
+                        components: ['Register/Show'],
+                    },
+                ],
+
                 mobileMenuOpen: false,
             };
         },
 
         mounted() {
+            console.log(this.auth.user.length !== 0)
             router.on("success", () => {
                 this.mobileMenuOpen = false;
             });

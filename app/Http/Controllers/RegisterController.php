@@ -12,22 +12,26 @@ class RegisterController extends Controller
         $isProd = \app()->environment('production');
 
         return \inertia()->render('Register/Show', [
-            'first_name' => ! $isProd ? 'Jim' : '',
-            'last_name' => ! $isProd ? 'Gordon' : '',
+            'name' => ! $isProd ? 'Jim Gordon' : '',
             'email' => ! $isProd ? 'test@test.com' : '',
             'password' => ! $isProd ? '123456Ab#' : '',
+            'is_content_creator' => ! $isProd ? 1 : 0,
         ]);
     }
 
     public function store(RegisterStore $request)
     {
-        $user = new User($request->only('first_name', 'last_name', 'email'));
+        $user = new User($request->only('name', 'email', 'is_content_creator'));
 
         $user->password = $request->validated('password');
         $user->save();
 
+        $user->profile()->create([
+            'genres' => explode(',', $request->genres)
+        ]);
+
         \auth()->loginUsingId($user->id);
 
-        return \redirect()->route('home');
+        return \redirect()->route('login');
     }
 }

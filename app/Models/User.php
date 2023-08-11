@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -20,9 +21,11 @@ class User extends Authenticatable
     use HasRoles;
 
     protected $fillable = [
-        'first_name',
-        'last_name',
+        'name',
         'email',
+        'is_content_creator',
+        'google_auth',
+        'facebook_auth',
     ];
 
     protected $hidden = [
@@ -34,6 +37,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $with = [
+        'profile'
+    ];
+
+    public function profile(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Creator::class);
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function following()
+    {
+        return $this->belongsToMany(User::class, 'user_followers_pivot', 'followed_by', 'user_id', 'id', 'id');
+    }
+
     protected function password(): Attribute
     {
         return Attribute::make(
@@ -41,29 +63,17 @@ class User extends Authenticatable
         );
     }
 
-    protected function allPermissions(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this->getAllPermissions()->pluck('name')
-        );
-    }
-
-    public function organisations()
-    {
-        return $this->hasMany(Organisation::class);
-    }
-
-    public function currentOrganisation()
-    {
-        return $this->belongsTo(Organisation::class);
-    }
-
-    public function updatePassword(?string $new_password = '')
+    public function updatePassword(?string $new_password = ''): void
     {
         if ($new_password && $new_password != $this->password) {
             $this->password = $new_password;
 
             $this->save();
         }
+    }
+
+    public function scopeCreator(Builder $query)
+    {
+        return $query->where('is_content_creator', true);
     }
 }

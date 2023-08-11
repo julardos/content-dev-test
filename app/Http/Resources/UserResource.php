@@ -11,9 +11,9 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'email' => $this->whenHas('email'),
-            'first_name' => $this->whenHas('first_name'),
-            'last_name' => $this->whenHas('last_name'),
-            'can' => $this->all_permissions,
+            'name' => $this->whenHas('name'),
+            'is_content_creator' => $this->whenHas('is_content_creator'),
+            'profile' => $this->whenHas('is_content_creator') && $this->is_content_creator ? $this->profile : null,
         ];
     }
 }

@@ -13,11 +13,10 @@ class UsersSeeder extends Seeder
     public function run()
     {
         User::factory()
-            ->afterCreating(function (User $user) {
-                $user->assignRole('admin');
-            })
             ->create([
                 'email' => \env('SEED_ADMIN_EMAIL'),
             ]);
+
+        User::factory()->count(10)->create();
     }
 }

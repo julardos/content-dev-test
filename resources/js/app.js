@@ -4,7 +4,7 @@ import route from 'ziggy';
 import { createApp, h } from 'vue';
 import { createInertiaApp, Link, Head } from '@inertiajs/vue3';
 
-import { userCan } from "@js/utilities/permissions.js";
+import { creatorCan } from "@js/utilities/permissions.js";
 
 import Notice from "@js/Components/Notice.vue";
 import Button from "@js/Components/Button.vue";
@@ -22,7 +22,7 @@ createInertiaApp({
         Vue.use(plugin)
             .use(ZiggyVue);
 
-        Vue.mixin({ methods: { userCan } });
+        Vue.mixin({ methods: { creatorCan } });
 
         Vue.component('Head', Head)
             .component('Link', Link)
