@@ -10,6 +10,10 @@ class Post extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'photo_path', 'caption', 'published_at', 'is_private', 'user_id'
+    ];
+
     protected $with = [
         'user'
     ];

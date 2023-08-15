@@ -44,6 +44,14 @@ Route::controller(\App\Http\Controllers\PostController::class)
     ->group(function () {
         Route::get('/', 'index')->name('post');
         Route::get('/create', 'create')->name('post.create');
+        Route::post('/create', 'store')->name('post.store');
+    });
+
+Route::controller(\App\Http\Controllers\OrderController::class)
+    ->prefix('order')
+    ->middleware(['auth'])
+    ->group(function () {
+        Route::get('/{order}', 'show')->name('order.show');
     });
 
 Route::controller(AccountController::class)

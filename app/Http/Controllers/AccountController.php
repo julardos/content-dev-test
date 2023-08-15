@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Account\AccountUpdate;
 use App\Http\Resources\UserResource;
+use App\Models\Order;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,9 +24,18 @@ class AccountController extends Controller
     {
         $authUser = Auth::user();
 
-        $authUser->following()->attach($user->id);
+//        $authUser->following()->attach($user->id);
+        $randomInt = random_int('111111111111', '999999999999');
+        $order = Order::query()->create([
+            'number' => $randomInt,
+            'user_id' => $authUser->id,
+            'creator_id' => $user->id,
+            'total_price' => $user->profile?->subscription_fee,
+            'expired_at' => Carbon::now()->addHours(6)
+        ]);
 
-        return back()->with('message', 'Success to subscribe '.$user->name);
+
+        return redirect()->route('order.show', $order->id);
     }
 
     public function edit(Request $request)

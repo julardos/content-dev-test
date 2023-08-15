@@ -9,6 +9,7 @@
     <form
         class="form"
         @submit.prevent="create"
+        enctype="multipart/form-data"
     >
         <div class="form__section">
             <div class="form__row">
@@ -20,6 +21,8 @@
                     <input
                         id="photo"
                         type="file"
+                        name="photo"
+                        @input="form.photo = $event.target.files[0]"
                         required
                     />
                 </div>
@@ -68,9 +71,9 @@
             <div class="form__row">
                 <div class="form__action">
                     <Button
-                        text="Submit On Development"
+                        text="Submit"
                         styles="full"
-                        :disabled="true"
+                        :disabled="form.processing"
                     />
                 </div>
             </div>
@@ -102,13 +105,16 @@
                     published_at: this.post?.published_at || new Date(),
                     is_private: this.post?.is_private || false,
                 }),
+                processing: false,
             };
         },
 
         methods: {
             create()
             {
-
+                this.form.post(route("post.store"), {
+                    forceFormData: true,
+                });
             }
         }
     };

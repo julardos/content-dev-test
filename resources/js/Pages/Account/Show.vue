@@ -16,7 +16,9 @@
 
     <div class="text-center">
         <p v-if="auth.following.includes(user.id)">Subscribed</p>
-        <button v-else class="btn btn-success" @click="subscribe()">Subscribe This Creator</button>
+        <button v-else class="btn btn-success" @click="subscribe()">
+            Subscribe {{ user.profile?.subscription_fee > 0 ? ": Rp." + user.profile?.subscription_fee : 'Now Free' }}
+        </button>
     </div>
 
     <hr>

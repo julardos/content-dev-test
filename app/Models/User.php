@@ -76,4 +76,9 @@ class User extends Authenticatable
     {
         return $query->where('is_content_creator', true);
     }
+
+    public function scopeNotCreator(Builder $query)
+    {
+        return $query->where('is_content_creator', false);
+    }
 }
