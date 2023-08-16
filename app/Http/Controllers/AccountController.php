@@ -24,18 +24,22 @@ class AccountController extends Controller
     {
         $authUser = Auth::user();
 
-//        $authUser->following()->attach($user->id);
-        $randomInt = random_int('111111111111', '999999999999');
-        $order = Order::query()->create([
-            'number' => $randomInt,
-            'user_id' => $authUser->id,
-            'creator_id' => $user->id,
-            'total_price' => $user->profile?->subscription_fee,
-            'expired_at' => Carbon::now()->addHours(6)
-        ]);
+        if ($user->profile?->subscription_fee > 0) {
+            $randomInt = random_int('111111111111', '999999999999');
+            $order = Order::query()->create([
+                'number' => $randomInt,
+                'user_id' => $authUser->id,
+                'creator_id' => $user->id,
+                'total_price' => $user->profile?->subscription_fee,
+                'expired_at' => Carbon::now()->addHours(6)
+            ]);
 
-
-        return redirect()->route('order.show', $order->id);
+            return redirect()->route('order.show', $order->id);
+        }
+        else {
+            $authUser->following()->attach($user->id);
+        }
+        return redirect()->back()->with('message', 'Success Subscribe '. $user->name);
     }
 
     public function edit(Request $request)
